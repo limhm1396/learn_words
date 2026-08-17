@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEARN WORDS</title>
+    <link rel="stylesheet" href="theme.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>단어 학습</h1>
+      </header>
+
+      <main>
+        <!-- 단어 추가 폼 -->
+        <section class="add-word-section">
+          <h2>새로운 단어 추가</h2>
+          <div class="form-group">
+            <label for="word-input">단어</label>
+            <input 
+              type="text" 
+              id="word-input" 
+              placeholder="추가할 단어를 입력하세요"
+              class="input-field"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="pronunciation-input">발음</label>
+            <input 
+              type="text" 
+              id="pronunciation-input" 
+              placeholder="단어의 발음을 입력하세요"
+              class="input-field"
+            />
+          </div>
+
+          <button id="add-btn" class="btn btn-primary">추가</button>
+        </section>
+
+        <!-- 저장된 단어 목록 -->
+        <section class="words-list-section">
+          <h2>저장된 단어 (<span id="word-count">0</span>)</h2>
+          <div id="words-list" class="words-list">
+            <p class="empty-message">아직 저장된 단어가 없습니다.</p>
+          </div>
+          <button id="start-test-btn" class="btn btn-primary" style="margin-top: 1.5rem; display: none;">시험 시작</button>
+        </section>
+
+        <!-- 시험 섹션 -->
+        <section id="test-section" class="test-section" style="display: none;">
+          <h2>시험</h2>
+          <div class="test-progress">
+            <div class="progress-bar">
+              <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <p class="progress-text"><span id="current-index">1</span> / <span id="total-words">0</span></p>
+          </div>
+
+          <div class="test-card">
+            <div id="word-card" class="word-card">
+              <p class="card-label">단어</p>
+              <h2 id="current-word" class="card-word">단어</h2>
+            </div>
+
+            <button id="show-pronunciation-btn" class="btn btn-secondary">발음 보기</button>
+
+            <div id="pronunciation-card" class="pronunciation-card" style="display: none;">
+              <p class="card-label">발음</p>
+              <h2 id="current-pronunciation" class="card-pronunciation">발음</h2>
+            </div>
+          </div>
+
+          <div class="test-actions">
+            <button id="retry-btn" class="btn btn-warning">다시공부</button>
+            <button id="pass-btn" class="btn btn-success">패스</button>
+          </div>
+
+          <button id="exit-test-btn" class="btn btn-danger" style="margin-top: 1rem; width: 100%;">시험 종료</button>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
