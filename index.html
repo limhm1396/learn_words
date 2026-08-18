@@ -36,6 +36,16 @@
             />
           </div>
 
+          <div class="form-group">
+            <label for="meaning-input">뜻</label>
+            <input 
+              type="text" 
+              id="meaning-input" 
+              placeholder="단어의 뜻을 입력하세요"
+              class="input-field"
+            />
+          </div>
+
           <button id="add-btn" class="btn btn-primary">추가</button>
         </section>
 
@@ -69,6 +79,13 @@
             <div id="pronunciation-card" class="pronunciation-card" style="display: none;">
               <p class="card-label">발음</p>
               <h2 id="current-pronunciation" class="card-pronunciation">발음</h2>
+            </div>
+
+            <button id="show-meaning-btn" class="btn btn-secondary btn-meaning">뜻 보기</button>
+
+            <div id="meaning-card" class="meaning-card" style="display: none;">
+              <p class="card-label">뜻</p>
+              <h2 id="current-meaning" class="card-meaning">뜻</h2>
             </div>
           </div>
 

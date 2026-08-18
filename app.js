@@ -4,6 +4,7 @@ const STORAGE_KEY = 'learnWords';
 // DOM 요소
 const wordInput = document.getElementById('word-input');
 const pronunciationInput = document.getElementById('pronunciation-input');
+const meaningInput = document.getElementById('meaning-input');
 const addBtn = document.getElementById('add-btn');
 const wordsList = document.getElementById('words-list');
 const wordCount = document.getElementById('word-count');
@@ -11,8 +12,11 @@ const startTestBtn = document.getElementById('start-test-btn');
 const testSection = document.getElementById('test-section');
 const currentWord = document.getElementById('current-word');
 const currentPronunciation = document.getElementById('current-pronunciation');
+const currentMeaning = document.getElementById('current-meaning');
 const pronunciationCard = document.getElementById('pronunciation-card');
+const meaningCard = document.getElementById('meaning-card');
 const showPronunciationBtn = document.getElementById('show-pronunciation-btn');
+const showMeaningBtn = document.getElementById('show-meaning-btn');
 const retryBtn = document.getElementById('retry-btn');
 const passBtn = document.getElementById('pass-btn');
 const exitTestBtn = document.getElementById('exit-test-btn');
@@ -39,8 +43,12 @@ function init() {
   pronunciationInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') addWord();
   });
+  meaningInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') addWord();
+  });
   startTestBtn.addEventListener('click', startTest);
   showPronunciationBtn.addEventListener('click', togglePronunciation);
+  showMeaningBtn.addEventListener('click', toggleMeaning);
   retryBtn.addEventListener('click', retryWord);
   passBtn.addEventListener('click', passWord);
   exitTestBtn.addEventListener('click', exitTest);
@@ -75,6 +83,7 @@ function saveWords() {
 function addWord() {
   const wordText = wordInput.value.trim();
   const pronunciationText = pronunciationInput.value.trim();
+  const meaningText = meaningInput.value.trim();
 
   // 유효성 검사
   if (!wordText) {
@@ -86,6 +95,12 @@ function addWord() {
   if (!pronunciationText) {
     alert('발음을 입력해주세요.');
     pronunciationInput.focus();
+    return;
+  }
+
+  if (!meaningText) {
+    alert('뜻을 입력해주세요.');
+    meaningInput.focus();
     return;
   }
 
@@ -101,6 +116,7 @@ function addWord() {
     id: Date.now(),
     word: wordText,
     pronunciation: pronunciationText,
+    meaning: meaningText,
     createdAt: new Date().toLocaleString('ko-KR')
   };
 
@@ -116,6 +132,7 @@ function addWord() {
   // 입력 필드 초기화
   wordInput.value = '';
   pronunciationInput.value = '';
+  meaningInput.value = '';
   wordInput.focus();
 }
 
@@ -156,7 +173,8 @@ function renderWordsList() {
     wordItem.innerHTML = `
       <div class="word-content">
         <p class="word-text">${escapeHtml(word.word)}</p>
-        <p class="word-pronunciation">${escapeHtml(word.pronunciation)}</p>
+        <p class="word-pronunciation">발음: ${escapeHtml(word.pronunciation)}</p>
+        <p class="word-meaning">뜻: ${escapeHtml(word.meaning || '')}</p>
       </div>
       <div class="word-actions">
         <button class="btn btn-danger" onclick="deleteWord(${word.id})">삭제</button>
@@ -207,8 +225,11 @@ function showCurrentWord() {
   const word = testWords[currentWordIndex];
   currentWord.textContent = escapeHtml(word.word);
   currentPronunciation.textContent = escapeHtml(word.pronunciation);
+  currentMeaning.textContent = escapeHtml(word.meaning || '');
   pronunciationCard.style.display = 'none';
+  meaningCard.style.display = 'none';
   showPronunciationBtn.textContent = '발음 보기';
+  showMeaningBtn.textContent = '뜻 보기';
 
   // 진행률 업데이트
   currentIndex.textContent = currentWordIndex + 1;
@@ -225,6 +246,17 @@ function togglePronunciation() {
   } else {
     pronunciationCard.style.display = 'none';
     showPronunciationBtn.textContent = '발음 보기';
+  }
+}
+
+// 뜻 토글
+function toggleMeaning() {
+  if (meaningCard.style.display === 'none') {
+    meaningCard.style.display = 'block';
+    showMeaningBtn.textContent = '뜻 숨기기';
+  } else {
+    meaningCard.style.display = 'none';
+    showMeaningBtn.textContent = '뜻 보기';
   }
 }
 

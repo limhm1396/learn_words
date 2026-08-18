@@ -183,6 +183,12 @@ main {
   margin: 0;
 }
 
+.word-meaning {
+  font-size: 0.95rem;
+  color: #444;
+  margin: 0.25rem 0 0;
+}
+
 .word-actions {
   display: flex;
   gap: 0.5rem;
@@ -245,7 +251,8 @@ main {
 }
 
 .word-card,
-.pronunciation-card {
+.pronunciation-card,
+.meaning-card {
   padding: 2rem;
   background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 123, 255, 0.05));
   border: 2px solid var(--primary-color);
@@ -263,6 +270,11 @@ main {
   background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(40, 167, 69, 0.05));
 }
 
+.meaning-card {
+  border-color: #fd7e14;
+  background: linear-gradient(135deg, rgba(253, 126, 20, 0.1), rgba(253, 126, 20, 0.05));
+}
+
 .card-label {
   margin: 0 0 0.5rem 0;
   font-size: 0.9rem;
@@ -273,7 +285,8 @@ main {
 }
 
 .card-word,
-.card-pronunciation {
+.card-pronunciation,
+.card-meaning {
   margin: 0;
   font-size: 2.5rem;
   font-weight: 700;
@@ -290,6 +303,14 @@ main {
 
 .btn-secondary:hover {
   background: var(--primary-hover);
+}
+
+.btn-meaning {
+  background: #fd7e14;
+}
+
+.btn-meaning:hover {
+  background: #e96a00;
 }
 
 .test-actions {
