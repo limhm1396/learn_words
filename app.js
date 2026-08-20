@@ -6,6 +6,7 @@ const wordInput = document.getElementById('word-input');
 const pronunciationInput = document.getElementById('pronunciation-input');
 const meaningInput = document.getElementById('meaning-input');
 const addBtn = document.getElementById('add-btn');
+const cancelEditBtn = document.getElementById('cancel-edit-btn');
 const wordsList = document.getElementById('words-list');
 const wordCount = document.getElementById('word-count');
 const startTestBtn = document.getElementById('start-test-btn');
@@ -26,6 +27,7 @@ const progressFill = document.getElementById('progress-fill');
 
 // 저장된 단어 배열
 let words = [];
+let editingWordId = null;
 
 // 시험 관련 변수
 let testWords = [];
@@ -37,6 +39,7 @@ function init() {
   loadWords();
   renderWordsList();
   addBtn.addEventListener('click', addWord);
+  cancelEditBtn.addEventListener('click', cancelEdit);
   wordInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') addWord();
   });
@@ -104,24 +107,32 @@ function addWord() {
     return;
   }
 
-  // 중복 확인
-  if (words.some(w => w.word === wordText)) {
+  // 편집 중인 항목은 제외하고 중복 확인
+  if (words.some(w => w.word === wordText && w.id !== editingWordId)) {
     alert('이미 같은 단어가 존재합니다.');
     wordInput.focus();
     return;
   }
 
-  // 새로운 단어 객체
-  const newWord = {
-    id: Date.now(),
-    word: wordText,
-    pronunciation: pronunciationText,
-    meaning: meaningText,
-    createdAt: new Date().toLocaleString('ko-KR')
-  };
+  if (editingWordId !== null) {
+    const wordToEdit = words.find(word => word.id === editingWordId);
+    if (!wordToEdit) {
+      cancelEdit();
+      return;
+    }
 
-  // 단어 배열에 추가
-  words.unshift(newWord);
+    wordToEdit.word = wordText;
+    wordToEdit.pronunciation = pronunciationText;
+    wordToEdit.meaning = meaningText;
+  } else {
+    words.unshift({
+      id: Date.now(),
+      word: wordText,
+      pronunciation: pronunciationText,
+      meaning: meaningText,
+      createdAt: new Date().toLocaleString('ko-KR')
+    });
+  }
 
   // 로컬 스토리지에 저장
   saveWords();
@@ -133,6 +144,35 @@ function addWord() {
   wordInput.value = '';
   pronunciationInput.value = '';
   meaningInput.value = '';
+  editingWordId = null;
+  addBtn.textContent = '추가';
+  cancelEditBtn.style.display = 'none';
+  wordInput.focus();
+}
+
+// 저장된 단어를 편집 모드로 전환
+function editWord(id) {
+  const wordToEdit = words.find(word => word.id === id);
+  if (!wordToEdit) return;
+
+  editingWordId = id;
+  wordInput.value = wordToEdit.word;
+  pronunciationInput.value = wordToEdit.pronunciation;
+  meaningInput.value = wordToEdit.meaning || '';
+  addBtn.textContent = '저장';
+  cancelEditBtn.style.display = 'block';
+  wordInput.focus();
+  document.querySelector('.add-word-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+// 편집 취소
+function cancelEdit() {
+  editingWordId = null;
+  wordInput.value = '';
+  pronunciationInput.value = '';
+  meaningInput.value = '';
+  addBtn.textContent = '추가';
+  cancelEditBtn.style.display = 'none';
   wordInput.focus();
 }
 
@@ -177,6 +217,7 @@ function renderWordsList() {
         <p class="word-meaning">뜻: ${escapeHtml(word.meaning || '')}</p>
       </div>
       <div class="word-actions">
+        <button class="btn btn-edit" onclick="editWord(${word.id})">편집</button>
         <button class="btn btn-danger" onclick="deleteWord(${word.id})">삭제</button>
       </div>
     `;

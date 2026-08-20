@@ -135,6 +135,28 @@ main {
   background: var(--danger-hover);
 }
 
+.btn-edit {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.btn-edit:hover {
+  background: var(--primary-hover);
+}
+
+.btn-cancel {
+  width: 100%;
+  margin-top: 0.75rem;
+  background: #6c757d;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background: #5a6268;
+}
+
 /* 단어 목록 섹션 */
 .words-list-section {
   background: var(--surface-color);
