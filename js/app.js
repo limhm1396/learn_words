@@ -8,6 +8,9 @@ const meaningInput = document.getElementById('meaning-input');
 const addBtn = document.getElementById('add-btn');
 const cancelEditBtn = document.getElementById('cancel-edit-btn');
 const clearAllBtn = document.getElementById('clear-all-btn');
+const backupBtn = document.getElementById('backup-btn');
+const importBtn = document.getElementById('import-btn');
+const importFileInput = document.getElementById('import-file-input');
 const wordsList = document.getElementById('words-list');
 const wordCount = document.getElementById('word-count');
 const startTestBtn = document.getElementById('start-test-btn');
@@ -25,6 +28,9 @@ function init() {
   addBtn.addEventListener('click', addWord);
   cancelEditBtn.addEventListener('click', cancelEdit);
   clearAllBtn.addEventListener('click', clearAllWords);
+  backupBtn.addEventListener('click', backupWords);
+  importBtn.addEventListener('click', () => importFileInput.click());
+  importFileInput.addEventListener('change', importWords);
   startSurvivalBtn.addEventListener('click', startSurvivalTest);
   wordInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') addWord();
@@ -96,6 +102,79 @@ function clearAllWords() {
   saveWords();
   renderWordsList();
   cancelEdit();
+}
+
+function createBackupFileName() {
+  return `learn-words-backup-${getToday()}.json`;
+}
+
+function downloadBackup(data) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = createBackupFileName();
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function backupWords() {
+  if (words.length === 0) {
+    alert('백업할 단어가 없습니다.');
+    return;
+  }
+
+  downloadBackup(words);
+}
+
+function isValidWord(word) {
+  return word &&
+    (typeof word.id === 'number' || typeof word.id === 'string') &&
+    typeof word.word === 'string' &&
+    typeof word.pronunciation === 'string' &&
+    typeof word.meaning === 'string';
+}
+
+function parseImportedWords(fileContents) {
+  const importedWords = JSON.parse(fileContents);
+  if (!Array.isArray(importedWords) || !importedWords.every(isValidWord)) {
+    throw new Error('잘못된 단어 백업 파일 형식입니다.');
+  }
+  return importedWords;
+}
+
+function mergeWords(existingWords, importedWords) {
+  const newWords = importedWords.filter(importedWord =>
+    !existingWords.some(existingWord => existingWord.word === importedWord.word)
+  );
+  return {
+    words: [...existingWords, ...newWords],
+    addedCount: newWords.length
+  };
+}
+
+function importWords(event) {
+  const file = event.target.files[0];
+  event.target.value = '';
+  if (!file) return;
+
+  file.text()
+    .then(parseImportedWords)
+    .then(importedWords => {
+      const mergedWords = mergeWords(words, importedWords);
+      if (!confirm(`${mergedWords.addedCount}개의 새 단어를 추가하시겠습니까? 기존 단어는 유지됩니다.`)) return;
+      words = mergedWords.words;
+      editingWordId = null;
+      if (saveWords()) {
+        renderWordsList();
+        cancelEdit();
+        alert(`${mergedWords.addedCount}개의 단어를 추가했습니다.`);
+      }
+    })
+    .catch(error => {
+      console.error('단어 불러오기 실패:', error);
+      alert('단어 백업 파일을 읽을 수 없습니다.');
+    });
 }
 
 // 단어 목록 렌더링

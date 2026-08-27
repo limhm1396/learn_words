@@ -9,8 +9,12 @@
   </head>
   <body>
     <div class="container">
-      <header>
+      <header class="dashboard-header">
         <h1>단어 학습</h1>
+        <span class="word-data-actions">
+          <button id="backup-btn" class="btn btn-secondary" type="button">단어 백업</button>
+          <button id="import-btn" class="btn btn-secondary" type="button">단어 불러오기</button>
+        </span>
       </header>
 
       <main class="dashboard-main">
@@ -58,6 +62,7 @@
               <span>저장된 단어 (<span id="word-count">0</span>)</span>
               <button id="clear-all-btn" class="btn btn-danger" type="button" disabled>전체 삭제</button>
             </h2>
+            <input id="import-file-input" type="file" accept="application/json,.json" hidden />
           </div>
           <div id="words-list" class="words-list">
             <p class="empty-message">아직 저장된 단어가 없습니다.</p>
