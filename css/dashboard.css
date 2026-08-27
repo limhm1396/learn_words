@@ -1,0 +1,238 @@
+.dashboard-main {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.5rem;
+}
+
+.add-word-section,
+.words-list-section {
+  background: var(--surface-color);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-word-section h2,
+.words-list-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.input-field {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--surface-color);
+  color: var(--text-color);
+  transition: border-color 0.2s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-group:last-of-type {
+  margin-bottom: 0;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+}
+
+.btn-primary {
+  margin-top: 1.5rem;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-edit {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.btn-edit {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-edit:hover {
+  background: var(--primary-hover);
+}
+
+.btn-cancel {
+  width: 100%;
+  margin-top: 0.75rem;
+  background: #6c757d;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background: #5a6268;
+}
+
+/* 단어 목록 섹션 */
+.words-list-header {
+  white-space: nowrap;
+}
+
+.words-list-header h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0;
+}
+
+.words-list-header .btn-danger {
+  flex-shrink: 0;
+}
+
+.words-list-header .btn-danger:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.words-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.word-item {
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: #fafafa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.word-content {
+  flex: 1;
+}
+
+.word-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0 0 0.3rem 0;
+}
+
+.word-pronunciation {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+}
+
+.word-meaning {
+  font-size: 0.95rem;
+  color: #444;
+  margin: 0.25rem 0 0;
+}
+
+.word-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.empty-message {
+  text-align: center;
+  color: #999;
+  margin: 2rem 0;
+  font-size: 1rem;
+}
+
+/* 시험 시작 섹션 */
+.test-description {
+  margin: 0;
+  color: #666;
+  line-height: 1.6;
+}
+
+.dashboard-test-section .btn-primary {
+  margin-top: 1.5rem;
+}
+
+.dashboard-test-section #start-test-btn {
+  background-color: #000000;
+  color: #ffffff !important;
+}
+
+.dashboard-test-section #start-test-btn:hover {
+  background-color: #333333;
+}
+
+.dashboard-test-section #start-survival-btn {
+  display: block;
+  margin-top: 0.75rem;
+  background-color: #000000;
+  color: #ffffff !important;
+}
+
+.dashboard-test-section #start-survival-btn:hover {
+  background-color: #333333;
+}
+
+.dashboard-test-section #start-survival-btn.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: auto;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+  .dashboard-main {
+    grid-template-columns: 1fr;
+  }
+
+  .add-word-section,
+  .words-list-section {
+    padding: 1.5rem;
+  }
+
+  .word-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .word-actions {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+
+  .words-list-header .btn-danger {
+    width: auto;
+  }
+}

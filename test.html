@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEARN WORDS - 시험</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/test.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>단어 시험</h1>
+      </header>
+
+      <main>
+        <section id="test-section" class="test-section">
+          <div class="test-progress">
+            <p class="progress-text"><span id="current-index">1</span> / <span id="total-words">0</span></p>
+          </div>
+
+          <div class="test-card">
+            <div class="word-card">
+              <div id="pronunciation-card" class="card-detail pronunciation-card">
+                <p id="current-pronunciation" class="card-pronunciation">발음</p>
+              </div>
+              <div class="word-main-card">
+                <div id="current-word" class="card-word">단어</div>
+              </div>
+              <div id="meaning-card" class="card-detail meaning-card">
+                <p id="current-meaning" class="card-meaning">뜻</p>
+              </div>
+            </div>
+            <button id="show-pronunciation-btn" class="btn btn-secondary">발음</button>
+            <button id="show-meaning-btn" class="btn btn-secondary btn-meaning">뜻</button>
+          </div>
+
+          <div class="test-actions">
+            <button id="retry-btn" class="btn btn-warning">다시 공부</button>
+            <button id="pass-btn" class="btn btn-success">통과</button>
+          </div>
+          <button id="exit-test-btn" class="btn btn-danger">시험 종료</button>
+        </section>
+      </main>
+    </div>
+    <script src="js/test.js"></script>
+  </body>
+</html>

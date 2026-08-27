@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LEARN WORDS</title>
-    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
   </head>
   <body>
     <div class="container">
@@ -12,7 +13,7 @@
         <h1>단어 학습</h1>
       </header>
 
-      <main>
+      <main class="dashboard-main">
         <!-- 단어 추가 폼 -->
         <section class="add-word-section">
           <h2>새로운 단어 추가</h2>
@@ -52,54 +53,28 @@
 
         <!-- 저장된 단어 목록 -->
         <section class="words-list-section">
-          <h2>저장된 단어 (<span id="word-count">0</span>)</h2>
+          <div class="words-list-header">
+            <h2>
+              <span>저장된 단어 (<span id="word-count">0</span>)</span>
+              <button id="clear-all-btn" class="btn btn-danger" type="button" disabled>전체 삭제</button>
+            </h2>
+          </div>
           <div id="words-list" class="words-list">
             <p class="empty-message">아직 저장된 단어가 없습니다.</p>
           </div>
-          <button id="start-test-btn" class="btn btn-primary" style="margin-top: 1.5rem; display: none;">시험 시작</button>
         </section>
 
-        <!-- 시험 섹션 -->
-        <section id="test-section" class="test-section" style="display: none;">
-          <h2>시험</h2>
-          <div class="test-progress">
-            <div class="progress-bar">
-              <div id="progress-fill" class="progress-fill"></div>
-            </div>
-            <p class="progress-text"><span id="current-index">1</span> / <span id="total-words">0</span></p>
-          </div>
-
-          <div class="test-card">
-            <div id="word-card" class="word-card">
-              <p class="card-label">단어</p>
-              <h2 id="current-word" class="card-word">단어</h2>
-            </div>
-
-            <button id="show-pronunciation-btn" class="btn btn-secondary">발음 보기</button>
-
-            <div id="pronunciation-card" class="pronunciation-card" style="display: none;">
-              <p class="card-label">발음</p>
-              <h2 id="current-pronunciation" class="card-pronunciation">발음</h2>
-            </div>
-
-            <button id="show-meaning-btn" class="btn btn-secondary btn-meaning">뜻 보기</button>
-
-            <div id="meaning-card" class="meaning-card" style="display: none;">
-              <p class="card-label">뜻</p>
-              <h2 id="current-meaning" class="card-meaning">뜻</h2>
-            </div>
-          </div>
-
-          <div class="test-actions">
-            <button id="retry-btn" class="btn btn-warning">다시공부</button>
-            <button id="pass-btn" class="btn btn-success">패스</button>
-          </div>
-
-          <button id="exit-test-btn" class="btn btn-danger" style="margin-top: 1rem; width: 100%;">시험 종료</button>
+        <!-- 시험 시작 영역 -->
+        <section class="test-section dashboard-test-section">
+          <h2>단어 시험</h2>
+          <p class="test-description">저장된 단어로 시험을 시작합니다.</p>
+          <a id="start-test-btn" class="btn btn-primary" href="test.html" style="display: none; text-align: center; text-decoration: none;">시험 시작</a>
+          <a id="start-survival-btn" class="btn btn-survival" href="test.html?mode=survival" style="display: none; text-align: center; text-decoration: none;">서바이벌 시험 시작</a>
         </section>
       </main>
     </div>
 
-    <script src="app.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/add_words.js"></script>
   </body>
 </html>
