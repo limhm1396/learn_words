@@ -6,6 +6,7 @@ const currentMeaning = document.getElementById('current-meaning');
 const pronunciationCard = document.getElementById('pronunciation-card');
 const meaningCard = document.getElementById('meaning-card');
 const showPronunciationBtn = document.getElementById('show-pronunciation-btn');
+const speakPronunciationBtn = document.getElementById('speak-pronunciation-btn');
 const showMeaningBtn = document.getElementById('show-meaning-btn');
 const retryBtn = document.getElementById('retry-btn');
 const passBtn = document.getElementById('pass-btn');
@@ -36,6 +37,8 @@ function shuffleArray(array) {
 }
 
 function showCurrentWord() {
+  window.speechSynthesis?.cancel();
+
   if (currentWordIndex >= testWords.length) {
     finishTest();
     return;
@@ -66,6 +69,19 @@ function toggleCard(card) {
 function showPronunciation() {
   showPronunciationBtn.style.visibility = 'hidden';
   toggleCard(pronunciationCard);
+}
+
+function speakPronunciation() {
+  const pronunciation = currentPronunciation.textContent.trim();
+
+  if (!pronunciation || !('speechSynthesis' in window)) {
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(pronunciation);
+  utterance.lang = 'ja-JP';
+  window.speechSynthesis.speak(utterance);
 }
 
 function showMeaning() {
@@ -107,6 +123,7 @@ function initializeTest() {
 
   shuffleArray(testWords);
   showPronunciationBtn.addEventListener('click', showPronunciation);
+  speakPronunciationBtn.addEventListener('click', speakPronunciation);
   showMeaningBtn.addEventListener('click', showMeaning);
   retryBtn.addEventListener('click', () => {
     retryWords = [...retryWords, testWords[currentWordIndex]];
