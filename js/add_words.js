@@ -2,6 +2,7 @@
 function saveWords() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+    localStorage.setItem(TABS_STORAGE_KEY, JSON.stringify(tabs));
     return true;
   } catch (error) {
     console.error('단어 저장 실패:', error);
@@ -58,6 +59,7 @@ function addWord() {
       word: wordText,
       pronunciation: pronunciationText,
       meaning: meaningText,
+      tabId: activeTabId,
       createdAt: new Date().toLocaleString('ko-KR')
     });
   }

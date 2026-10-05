@@ -1,4 +1,6 @@
 const STORAGE_KEY = 'learnWords';
+const TABS_STORAGE_KEY = 'learnWordTabs';
+const ACTIVE_TAB_STORAGE_KEY = 'activeLearnWordTab';
 
 const currentWord = document.getElementById('current-word');
 const currentPronunciation = document.getElementById('current-pronunciation');
@@ -22,7 +24,20 @@ let currentWordIndex = 0;
 
 function loadWords() {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    const words = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    const savedTabs = JSON.parse(localStorage.getItem(TABS_STORAGE_KEY)) || [];
+    const tabs = Array.isArray(savedTabs) ? savedTabs : [];
+    const activeTabId = localStorage.getItem(ACTIVE_TAB_STORAGE_KEY);
+    const selectedTabId = tabs.some(tab => tab.id === activeTabId) ? activeTabId : tabs[0]?.id;
+
+    if (!selectedTabId) return words;
+
+    const tabIds = new Set(tabs.map(tab => tab.id));
+    const defaultTabId = tabs[0].id;
+    return words.filter(word => {
+      const wordTabId = tabIds.has(word.tabId) ? word.tabId : defaultTabId;
+      return wordTabId === selectedTabId;
+    });
   } catch (error) {
     console.error('단어 불러오기 실패:', error);
     return [];
